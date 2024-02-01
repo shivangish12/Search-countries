@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 function App() {
   const [countries, setCountries] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     fetch("https://restcountries.com/v3.1/all")
@@ -30,31 +30,35 @@ function App() {
 
   const containerStyle = {
     display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "center",
+    flexDirection: "column", // Updated to column
     alignItems: "center",
     height: "100vh",
-    border: "10px",
   };
 
-  // Filter countries based on the search query with substring match
+  const searchContainerStyle = {
+    marginBottom: "20px", // Added margin to separate search box from country cards
+  };
+
   const filteredCountries = countries.filter((country) =>
-    country.name.common.toLowerCase().includes(searchQuery.toLowerCase())
+    country.name.common.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
-    <div>
-      <div className="search">
+    <div style={containerStyle}>
+      <div style={searchContainerStyle}>
         <input
           type="text"
-          placeholder="Search by country"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Search for a country"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
-      <div style={containerStyle}>
-        {filteredCountries.slice(0, 3).map((country) => (
-          <div key={country.cca3} className="countryCard" style={cardStyle}>
+      {filteredCountries.length === 0 && searchTerm && (
+        <p>No matching countries found.</p>
+      )}
+      <div style={{ display: "flex", flexWrap: "wrap" }}>
+        {filteredCountries.map((country) => (
+          <div key={country.cca3} style={cardStyle} className="countryCard">
             <img
               src={country.flags.png}
               alt={`Flag of ${country.name.common}`}
@@ -63,7 +67,6 @@ function App() {
             <h2>{country.name.common}</h2>
           </div>
         ))}
-        {filteredCountries.length === 0 && <p>No matching countries found.</p>}
       </div>
     </div>
   );

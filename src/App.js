@@ -58,6 +58,7 @@ function App() {
               style={imageStyle}
             />
             <h2>{country.name.common}</h2>
+            <p>{country.name.common}</p> {/* Include country name directly */}
           </div>
         ))}
         {filteredCountries.length === 0 && <p>No matching countries found.</p>}

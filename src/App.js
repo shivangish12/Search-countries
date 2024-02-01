@@ -34,6 +34,7 @@ function App() {
     justifyContent: "center",
     alignItems: "center",
     height: "100vh",
+    border: "10px",
   };
 
   // Filter countries based on the search query with substring match
@@ -43,12 +44,14 @@ function App() {
 
   return (
     <div>
-      <input
-        type="text"
-        placeholder="Search by country"
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-      />
+      <div className="search">
+        <input
+          type="text"
+          placeholder="Search by country"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+      </div>
       <div style={containerStyle}>
         {filteredCountries.slice(0, 3).map((country) => (
           <div key={country.cca3} className="countryCard" style={cardStyle}>
@@ -58,7 +61,6 @@ function App() {
               style={imageStyle}
             />
             <h2>{country.name.common}</h2>
-            <p>{country.name.common}</p> {/* Include country name directly */}
           </div>
         ))}
         {filteredCountries.length === 0 && <p>No matching countries found.</p>}

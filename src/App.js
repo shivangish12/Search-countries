@@ -45,13 +45,13 @@ function App() {
     <div>
       <input
         type="text"
-        placeholder="Search by countries"
+        placeholder="Search by country"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
       />
       <div style={containerStyle}>
-        {filteredCountries.map((country) => (
-          <div key={country.cca3} style={cardStyle}>
+        {filteredCountries.slice(0, 3).map((country) => (
+          <div key={country.cca3} className="countryCard" style={cardStyle}>
             <img
               src={country.flags.png}
               alt={`Flag of ${country.name.common}`}
@@ -60,6 +60,7 @@ function App() {
             <h2>{country.name.common}</h2>
           </div>
         ))}
+        {filteredCountries.length === 0 && <p>No matching countries found.</p>}
       </div>
     </div>
   );
